@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank Share</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        .input-section {
+            margin-bottom: 20px;
+        }
+        label, input {
+            font-size: 16px;
+        }
+        .date {
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Tank Share Calculation</h2>
+    
+    <div class="date" id="currentDate"></div>
+    
+    <div class="input-section">
+        <label for="billAmount">Enter Bill Amount: </label>
+        <input type="number" id="billAmount" value="600" onchange="calculateShare()">
+    </div>
+
+    <h3>Owner's Share (25%): <span id="ownerShare"></span></h3>
+
+    <h4>Please mark your presence:</h4>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Person</th>
+                <th>Present</th>
+                <th>Share</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Siva</td>
+                <td><input type="checkbox" id="A" checked onchange="calculateShare()"></td>
+                <td id="AShare"></td>
+            </tr>
+            <tr>
+                <td>Madhan</td>
+                <td><input type="checkbox" id="B" checked onchange="calculateShare()"></td>
+                <td id="BShare"></td>
+            </tr>
+            <tr>
+                <td>Roja</td>
+                <td><input type="checkbox" id="C" checked onchange="calculateShare()"></td>
+                <td id="CShare"></td>
+            </tr>
+            <tr>
+                <td>Biju</td>
+                <td><input type="checkbox" id="D" checked onchange="calculateShare()"></td>
+                <td id="DShare"></td>
+            </tr>
+            <tr>
+                <td>Mahesh</td>
+                <td><input type="checkbox" id="E" checked onchange="calculateShare()"></td>
+                <td id="EShare"></td>
+            </tr>
+            <tr>
+                <td>Floor1</td>
+                <td><input type="checkbox" id="F" checked onchange="calculateShare()"></td>
+                <td id="FShare"></td>
+            </tr>
+            <tr>
+                <td>Floor2B</td>
+                <td><input type="checkbox" id="G" checked onchange="calculateShare()"></td>
+                <td id="GShare"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        // Function to calculate the share for each person
+        function calculateShare() {
+            var billAmount = parseFloat(document.getElementById("billAmount").value);
+            
+            // Calculate Owner's share (25%)
+            var ownerShare = billAmount * 0.25;
+            document.getElementById("ownerShare").textContent = ownerShare.toFixed(2);
+            
+            // Remaining amount after Owner's share
+            var remainingAmount = billAmount - ownerShare;
+            
+            // Get the total number of people marked as "Yes"
+            var totalPeople = 0;
+            if (document.getElementById("A").checked) totalPeople++;
+            if (document.getElementById("B").checked) totalPeople++;
+            if (document.getElementById("C").checked) totalPeople++;
+            if (document.getElementById("D").checked) totalPeople++;
+            if (document.getElementById("E").checked) totalPeople++;
+            if (document.getElementById("F").checked) totalPeople++;
+            if (document.getElementById("G").checked) totalPeople++;
+            
+            // Calculate the share for each person (if present)
+            var personShare = 0;
+            if (totalPeople > 0) {
+                personShare = remainingAmount / totalPeople;
+            }
+
+            // Update share for Siva, Madhan, Roja, Biju, Mahesh, Floor1, Floor2B
+            document.getElementById("AShare").textContent = (document.getElementById("A").checked ? personShare.toFixed(2) : "0.00");
+            document.getElementById("BShare").textContent = (document.getElementById("B").checked ? personShare.toFixed(2) : "0.00");
+            document.getElementById("CShare").textContent = (document.getElementById("C").checked ? personShare.toFixed(2) : "0.00");
+            document.getElementById("DShare").textContent = (document.getElementById("D").checked ? personShare.toFixed(2) : "0.00");
+            document.getElementById("EShare").textContent = (document.getElementById("E").checked ? personShare.toFixed(2) : "0.00");
+            document.getElementById("FShare").textContent = (document.getElementById("F").checked ? personShare.toFixed(2) : "0.00");
+            document.getElementById("GShare").textContent = (document.getElementById("G").checked ? personShare.toFixed(2) : "0.00");
+        }
+
+        // Function to display the current date
+        function displayDate() {
+            var date = new Date();
+            var options = { year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById("currentDate").textContent = "Date: " + date.toLocaleDateString(undefined, options);
+        }
+
+        // Initial calculation and date display
+        window.onload = function() {
+            calculateShare();
+            displayDate();
+        };
+    </script>
+</body>
+</html>
